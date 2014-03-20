@@ -1,11 +1,10 @@
-package src.de.enteryourname.hs.algolab.convexhull.algorithm;
+package de.enteryourname.hs.algolab.convexhull.algorithm;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import de.kellertobias.hs.algolab.convexhull.Point2D;
-import de.kellertobias.hs.algolab.dataset.Dataset;
+import de.enteryourname.hs.algolab.convexhull.Point2D;
+import de.enteryourname.hs.algolab.dataset.Dataset;
 
 /**
  * Implementation of Chans algorithm

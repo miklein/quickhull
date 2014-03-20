@@ -1,4 +1,4 @@
-package src.de.enteryourname.hs.algolab.convexhull;
+package de.enteryourname.hs.algolab.convexhull;
 
 /**
  * Timer <- no description needed

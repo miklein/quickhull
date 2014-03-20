@@ -1,11 +1,11 @@
-package src.de.enteryourname.hs.algolab.convexhull;
+package de.enteryourname.hs.algolab.convexhull;
 
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import de.kellertobias.hs.algolab.dataset.Dataset;
+import de.enteryourname.hs.algolab.dataset.Dataset;
 
 /**
  * Export given information to the Filesystem.

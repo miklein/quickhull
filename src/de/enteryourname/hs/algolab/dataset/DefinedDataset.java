@@ -1,9 +1,9 @@
-package src.de.enteryourname.hs.algolab.dataset;
+package de.enteryourname.hs.algolab.dataset;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.kellertobias.hs.algolab.convexhull.Point2D;
+import de.enteryourname.hs.algolab.convexhull.Point2D;
 
 public class DefinedDataset implements Dataset {
 	

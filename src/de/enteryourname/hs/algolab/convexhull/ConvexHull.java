@@ -1,17 +1,12 @@
-package src.de.enteryourname.hs.algolab.convexhull;
+package de.enteryourname.hs.algolab.convexhull;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import de.kellertobias.hs.algolab.convexhull.algorithm.Algorithm;
-import de.kellertobias.hs.algolab.convexhull.algorithm.QuickHullAlgorithm;
-import de.kellertobias.hs.algolab.dataset.CircleDataset;
-import de.kellertobias.hs.algolab.dataset.Dataset;
-import de.kellertobias.hs.algolab.dataset.InnerRectangleDataset;
-import de.kellertobias.hs.algolab.dataset.RandomDataset;
-import de.kellertobias.hs.algolab.dataset.RectangleDataset;
-import de.kellertobias.hs.algolab.dataset.TestDataset;
+import de.enteryourname.hs.algolab.convexhull.algorithm.Algorithm;
+import de.enteryourname.hs.algolab.convexhull.algorithm.QuickHullAlgorithm;
+import de.enteryourname.hs.algolab.dataset.Dataset;
+import de.enteryourname.hs.algolab.dataset.RandomDataset;
+import de.enteryourname.hs.algolab.dataset.RectangleDataset;
 
 /**
  * 
