@@ -1,13 +1,17 @@
 package de.enteryourname.hs.algolab.convexhull.algorithm;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
-import de.enteryourname.hs.algolab.convexhull.Point2D;
-import de.enteryourname.hs.algolab.dataset.Dataset;
+import de.kellertobias.hs.algolab.convexhull.Job;
+import de.kellertobias.hs.algolab.convexhull.Point2D;
+import de.kellertobias.hs.algolab.dataset.Dataset;
 
 /**
- * Implementation of Chans algorithm
+ * Implementation of QuickHull algorithm
  * @author Tobias Keller
  *
  */
@@ -18,10 +22,11 @@ public class QuickHullAlgorithm implements Algorithm {
 	@Override
 	public List<Point2D> calculate(Dataset object) {
 		
+		// reset result-list
+		this.convexHull.clear();
+		
 		List<Point2D> dataset = object.getPoints();
 
-		
-		
 		// find mostLeft and mostRight Point
 		Point2D mostLeftPoint = dataset.get(0);
 		Point2D mostRightPoint = dataset.get(0);
@@ -49,10 +54,9 @@ public class QuickHullAlgorithm implements Algorithm {
 		dataset.remove(dataset.indexOf(mostLeftPoint));
 		
 		this.addHullPoint(mostLeftPoint);
-		this.calcUpperHull(dataset, mostLeftPoint, mostRightPoint);
+		this.calcHalfHullStackSupported(dataset, mostLeftPoint, mostRightPoint);
 		this.addHullPoint(mostRightPoint);
-		System.out.println("now the lower hull..");
-		this.calcUpperHull(dataset, mostRightPoint, mostLeftPoint);
+		this.calcHalfHullStackSupported(dataset, mostRightPoint, mostLeftPoint);
 		
 		return this.convexHull;
 	}
@@ -61,25 +65,14 @@ public class QuickHullAlgorithm implements Algorithm {
 	
 	
 	
-	private void calcUpperHull(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
-
-		
+	private void calcHalfHull(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
 		
 		List<Point2D> upperPoints = new ArrayList<Point2D>();
-		List<Point2D> lowerPoints = new ArrayList<Point2D>();
 		
 		// divide
 		for (Point2D point : points) {
-			
-			
-			// alle punkte die oberhalb der linie liegen
-			// if (point.isAboveLine(lineStart, lineEnd) == 1) {
-			
-			// alle punkte die oberhalb oder AUF der linie liegen
-			if (point.isAboveLine(lineStart, lineEnd) != -1) {
+			if (point.isAboveLine(lineStart, lineEnd) == 1) {
 				upperPoints.add(point);
-			} else {
-				lowerPoints.add(point);
 			}
 		}
 		
@@ -97,65 +90,74 @@ public class QuickHullAlgorithm implements Algorithm {
 			}
 		}
 		
-		
 		upperPoints.remove(upperPoints.indexOf(hullPoint));
 		
-		
-		this.calcUpperHull(upperPoints, lineStart, hullPoint);
+		this.calcHalfHull(upperPoints, lineStart, hullPoint);
 		this.addHullPoint(hullPoint);
-		this.calcUpperHull(upperPoints, hullPoint, lineEnd);
-		
-		
-		
+		this.calcHalfHull(upperPoints, hullPoint, lineEnd);
 	}
 	
 	
-	private void calcLowerHull(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
+	
+	private void calcHalfHullStackSupported(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
 		
-		if (points.size() == 1) {
-			System.out.println("Pool is empty!");
-			this.addHullPoint(points.get(0));
-			return;
-		}
+		Stack<Job> stack = new Stack<Job>();
+		Stack<Point2D> resultStack = new Stack<Point2D>();
 		
-		List<Point2D> upperPoints = new ArrayList<Point2D>();
-		List<Point2D> lowerPoints = new ArrayList<Point2D>();
 		
-		// divide
-		for (Point2D point : points) {
-			if (point.isAboveLine(lineStart, lineEnd) == 1) {
-				upperPoints.add(point);
-			} else {
-				lowerPoints.add(point);
+		
+		stack.push(new Job(points, lineStart, lineEnd));
+		
+		while (!stack.empty()) {
+			Job job = stack.pop();
+			
+			//System.out.println("punkte"+points);
+			List<Point2D> upperPoints = new ArrayList<Point2D>();
+			
+			// divide
+			for (Point2D point : job.getPoints()) {
+				if (point.isAboveLine(job.getLineStart(), job.getLineEnd()) == 1) {
+					upperPoints.add(point);
+				}
 			}
-		}
-		
-		double distance = 0;
-		Point2D hullPoint = new Point2D(0, 0); 
-		// find point with greatest distance
-		for (Point2D point : lowerPoints) {
-			double temp = point.distanceToLine(lineStart, lineEnd);
-			if (temp >= distance) {
-				distance = temp;
-				hullPoint = point;
+			
+			// break if no points exists..
+			if (upperPoints.size() == 0) continue;
+			
+			double distance = 0;
+			Point2D hullPoint = null; 
+			// find point with greatest distance
+			for (Point2D point : upperPoints) {
+				double temp = point.distanceToLine(job.getLineStart(), job.getLineEnd());
+				if (temp >= distance) {
+					distance = temp;
+					hullPoint = point;
+				}
 			}
+
+			stack.push(new Job(upperPoints, hullPoint, lineEnd));
+			resultStack.push(hullPoint);
+			stack.push(new Job(upperPoints, lineStart, hullPoint));
 		}
+
 		
-		lowerPoints.remove(lowerPoints.indexOf(hullPoint));
-		
-		this.calcUpperHull(lowerPoints, lineStart, hullPoint);
-		
-		this.addHullPoint(hullPoint);
+
+		while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
 		
 	}
+	
 	
 	
 	
 	
 	
 	private void addHullPoint(Point2D point) {
-		this.convexHull.add(point);
-		//System.out.println("addHullPoint: "+point);
+		//System.out.println("add hull point: "+point);
+		// check if point is already in the hull-list
+		// this solves tripple-entries if a source-point exists twice
+		if (this.convexHull.size() == 0 || point.compareTo(this.convexHull.get(this.convexHull.size()-1)) != 0) {
+			this.convexHull.add(point);
+		}
 	}
 	
 	
