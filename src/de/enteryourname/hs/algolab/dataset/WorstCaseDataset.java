@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import de.kellertobias.hs.algolab.convexhull.Point2D;
+import de.enteryourname.hs.algolab.convexhull.Point2D;
 
 /**
  * Testdataset where all Points are defined on a circle
