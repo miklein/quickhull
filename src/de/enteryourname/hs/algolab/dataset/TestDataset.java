@@ -18,25 +18,44 @@ public class TestDataset implements Dataset {
 		List<Point2D> pointList = new ArrayList<>();
 
 		
-		pointList.add(new Point2D(0,0));
-		pointList.add(new Point2D(0,1));
-		pointList.add(new Point2D(5,0));
-		pointList.add(new Point2D(1.5,1.5));
-		pointList.add(new Point2D(1,1.5));
-		pointList.add(new Point2D(3,3));
-		pointList.add(new Point2D(2,2.5));
-		pointList.add(new Point2D(1,2));
-		pointList.add(new Point2D(0.5,1.75));
-		
-
-		pointList.add(new Point2D(3,-3));
+		pointList.add(new Point2D(-2,1));
 		pointList.add(new Point2D(3,-2));
-		pointList.add(new Point2D(1.5,-1.5));
-		pointList.add(new Point2D(4.5,2));
-		pointList.add(new Point2D(4.5,-2.5));
-		pointList.add(new Point2D(3,-4.5));
-		pointList.add(new Point2D(1,-3.5));
-		pointList.add(new Point2D(0.25,-1.5));
+		//pointList.add(new Point2D(-3,4));
+		pointList.add(new Point2D(-2,4));
+		pointList.add(new Point2D(3,1));
+		pointList.add(new Point2D(-4,-2));
+		pointList.add(new Point2D(2,3));
+		pointList.add(new Point2D(4,2));	
+		pointList.add(new Point2D(-2,-5));
+		pointList.add(new Point2D(-5,4));
+		pointList.add(new Point2D(-3,-1));
+		pointList.add(new Point2D(-4,-2));
+		pointList.add(new Point2D(-3,-3));
+		pointList.add(new Point2D(1,-1));
+		
+		
+		
+		
+		
+//		pointList.add(new Point2D(0,0));
+//		pointList.add(new Point2D(0,1));
+//		pointList.add(new Point2D(5,0));
+//		pointList.add(new Point2D(1.5,1.5));
+//		pointList.add(new Point2D(1,1.5));
+//		pointList.add(new Point2D(3,3));
+//		pointList.add(new Point2D(2,2.5));
+//		pointList.add(new Point2D(1,2));
+//		pointList.add(new Point2D(0.5,1.75));
+//		
+//
+//		pointList.add(new Point2D(3,-3));
+//		pointList.add(new Point2D(3,-2));
+//		pointList.add(new Point2D(1.5,-1.5));
+//		pointList.add(new Point2D(4.5,2));
+//		pointList.add(new Point2D(4.5,-2.5));
+//		pointList.add(new Point2D(3,-4.5));
+//		pointList.add(new Point2D(1,-3.5));
+//		pointList.add(new Point2D(0.25,-1.5));
 		
 		
 //		pointList.add(new Point2D(1,1));

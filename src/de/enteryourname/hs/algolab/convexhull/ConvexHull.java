@@ -1,20 +1,10 @@
 package de.enteryourname.hs.algolab.convexhull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import de.enteryourname.hs.algolab.convexhull.Point2D;
-import de.enteryourname.hs.algolab.dataset.DefinedDataset;
 import de.enteryourname.hs.algolab.convexhull.algorithm.Algorithm;
 import de.enteryourname.hs.algolab.convexhull.algorithm.QuickHullAlgorithm;
-import de.enteryourname.hs.algolab.dataset.CircleDataset;
 import de.enteryourname.hs.algolab.dataset.Dataset;
-import de.enteryourname.hs.algolab.dataset.InnerRectangleDataset;
-import de.enteryourname.hs.algolab.dataset.RandomDataset;
 import de.enteryourname.hs.algolab.dataset.RectangleDataset;
 import de.enteryourname.hs.algolab.dataset.TestDataset;
-import de.enteryourname.hs.algolab.dataset.WorstCaseDataset;
 
 /**
  * 
@@ -48,10 +38,10 @@ public class ConvexHull {
 //		System.out.println(result);
 //		
 		
-		Dataset dataset = new RectangleDataset(30);
+		Dataset dataset = new TestDataset();
 		
 		
-		Export plot = new Export("D:\\pplot.dat");
+		Export plot = new Export("/home/michi/pplot.dat");
 		plot.addDataset(dataset);
 		plot.addHull(algo.calculate(dataset));
 		plot.store();

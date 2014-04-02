@@ -57,6 +57,48 @@ public class QuickHullAlgorithmTest {
 //			       IsIterableContainingInOrder.contains(convexHull.toArray()));
 		
 	}
+	
+	@Test
+	public void testAlgorithmNegativPoints() {
+		ArrayList<Point2D> points = new ArrayList<Point2D>();
+		points.add(new Point2D(-2,1));
+		points.add(new Point2D(3,-2));
+		points.add(new Point2D(-3,4));
+		points.add(new Point2D(-2,4));
+		points.add(new Point2D(3,1));
+		points.add(new Point2D(-4,-2));
+		points.add(new Point2D(2,3));
+		points.add(new Point2D(4,2));	
+		points.add(new Point2D(-2,-5));
+		points.add(new Point2D(-5,4));
+		points.add(new Point2D(-3,-1));
+		points.add(new Point2D(-4,-2));
+		points.add(new Point2D(-3,-3));
+		points.add(new Point2D(1,-1));
+		
+		ArrayList<Point2D> convexHull = new ArrayList<Point2D>();
+		convexHull.add(new Point2D(-5,4));
+		convexHull.add(new Point2D(-2,4));
+		convexHull.add(new Point2D(2,3));
+		convexHull.add(new Point2D(4,2));
+		convexHull.add(new Point2D(3,-2));
+		convexHull.add(new Point2D(2,-4));
+		convexHull.add(new Point2D(-2,-5));
+		convexHull.add(new Point2D(-3,-4));
+		convexHull.add(new Point2D(-4,-2));
+		
+		DefinedDataset testDataset = new DefinedDataset(points);
+		
+		int i = 0;
+		
+		for (Point2D point : algorithm.calculate(testDataset)) {
+		Assert.assertEquals(convexHull.get(i).getX(), point.getX(), 0.0);
+		Assert.assertEquals(convexHull.get(i).getY(), point.getY(), 0.0);
+		i++;
+		}
+		
+	}
+	
 
 	@Test
 	public void testOnlyTwoPoints() {
