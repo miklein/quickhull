@@ -8,7 +8,7 @@ public class Job {
 	private List<Point2D> points = new ArrayList<Point2D>();
 	private Point2D lineStart;
 	private Point2D lineEnd;
-	
+	private String type;
 	
 	public List<Point2D> getPoints() {
 		return points;
@@ -29,11 +29,23 @@ public class Job {
 		this.lineEnd = lineEnd;
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+	}
 	
-	public Job(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
+	public String getType() {
+		return this.type;
+	}
+	
+	public Job(List<Point2D> points, Point2D lineStart, Point2D lineEnd, String type) {
 		this.setLineEnd(lineEnd);
 		this.setLineStart(lineStart);
 		this.setPoints(points);
+		this.setType(type);
+	}
+	
+	public String toString() {
+		return this.getType();
 	}
 	
 }

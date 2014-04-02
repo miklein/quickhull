@@ -1,6 +1,8 @@
 package de.enteryourname.hs.algolab.convexhull.algorithm;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -8,14 +10,14 @@ import de.enteryourname.hs.algolab.convexhull.Job;
 import de.enteryourname.hs.algolab.convexhull.Point2D;
 import de.enteryourname.hs.algolab.dataset.Dataset;
 
-
-
 /**
  * Implementation of QuickHull algorithm
  * @author Tobias Keller
  *
  */
 public class QuickHullAlgorithm implements Algorithm {
+	
+	private boolean bUseOwnStack = true;
 
 	private List<Point2D> convexHull = new ArrayList<Point2D>();
 	
@@ -53,10 +55,17 @@ public class QuickHullAlgorithm implements Algorithm {
 		dataset.remove(dataset.indexOf(mostRightPoint));
 		dataset.remove(dataset.indexOf(mostLeftPoint));
 		
-		this.addHullPoint(mostLeftPoint);
-		this.calcHalfHullStackSupported(dataset, mostLeftPoint, mostRightPoint);
-		this.addHullPoint(mostRightPoint);
-		this.calcHalfHullStackSupported(dataset, mostRightPoint, mostLeftPoint);
+		if (bUseOwnStack) {
+			this.addHullPoint(mostLeftPoint);
+			this.calcHalfHullStackSupported(dataset, mostLeftPoint, mostRightPoint);
+			this.addHullPoint(mostRightPoint);
+			this.calcHalfHullStackSupported(dataset, mostRightPoint, mostLeftPoint);
+		} else {
+			this.addHullPoint(mostLeftPoint);
+			this.calcHalfHull(dataset, mostLeftPoint, mostRightPoint);
+			this.addHullPoint(mostRightPoint);
+			this.calcHalfHull(dataset, mostRightPoint, mostLeftPoint);
+		}
 		
 		return this.convexHull;
 	}
@@ -103,13 +112,22 @@ public class QuickHullAlgorithm implements Algorithm {
 		
 		Stack<Job> stack = new Stack<Job>();
 		Stack<Point2D> resultStack = new Stack<Point2D>();
+		String lastJobType = "";
 		
+		resultStack.clear();
+		stack.clear();
 		
-		
-		stack.push(new Job(points, lineStart, lineEnd));
-		
+		stack.push(new Job(points, lineStart, lineEnd, "init"));
+		System.out.println("Starte StackSupport..");
 		while (!stack.empty()) {
+			System.out.println(stack);
 			Job job = stack.pop();
+			
+			if (lastJobType == "A" && job.getType() == "B") {
+				while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
+			}
+			lastJobType = job.getType();
+			
 			
 			//System.out.println("punkte"+points);
 			List<Point2D> upperPoints = new ArrayList<Point2D>();
@@ -134,15 +152,22 @@ public class QuickHullAlgorithm implements Algorithm {
 					hullPoint = point;
 				}
 			}
+			
+			upperPoints.remove(upperPoints.indexOf(hullPoint));
 
-			stack.push(new Job(upperPoints, hullPoint, lineEnd));
+//			this.calcHalfHull(upperPoints, lineStart, hullPoint);
+//			this.addHullPoint(hullPoint);
+//			this.calcHalfHull(upperPoints, hullPoint, lineEnd);
+
+			stack.push(new Job(upperPoints, hullPoint, lineEnd, "B"));
+			stack.push(new Job(upperPoints, lineStart, hullPoint, "A"));
 			resultStack.push(hullPoint);
-			stack.push(new Job(upperPoints, lineStart, hullPoint));
+			
 		}
 
-		
-
 		while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
+
+		
 		
 	}
 	
