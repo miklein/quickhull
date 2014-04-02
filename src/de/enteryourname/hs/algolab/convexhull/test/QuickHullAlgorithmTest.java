@@ -20,9 +20,11 @@ public class QuickHullAlgorithmTest {
 	 @Before
 	    public void setUp() {
 		 algorithm = new QuickHullAlgorithm();
-		 
+		 algorithm.useOwnStack(true);
 	    }
 	
+	
+	 
 	@Test
 	public void testAlgorithm() {
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
@@ -34,8 +36,10 @@ public class QuickHullAlgorithmTest {
 		points.add(new Point2D(7,3));
 		points.add(new Point2D(6,8));
 		points.add(new Point2D(6,8));
+		points.add(new Point2D(1,0));
 		
 		ArrayList<Point2D> convexHull = new ArrayList<Point2D>();
+		convexHull.add(new Point2D(1,0));
 		convexHull.add(new Point2D(1,1));
 		convexHull.add(new Point2D(2,6));
 		convexHull.add(new Point2D(6,8));
@@ -75,6 +79,7 @@ public class QuickHullAlgorithmTest {
 		points.add(new Point2D(-4,-2));
 		points.add(new Point2D(-3,-3));
 		points.add(new Point2D(1,-1));
+		points.add(new Point2D(2,-4));
 		
 		ArrayList<Point2D> convexHull = new ArrayList<Point2D>();
 		convexHull.add(new Point2D(-5,4));
@@ -84,7 +89,6 @@ public class QuickHullAlgorithmTest {
 		convexHull.add(new Point2D(3,-2));
 		convexHull.add(new Point2D(2,-4));
 		convexHull.add(new Point2D(-2,-5));
-		convexHull.add(new Point2D(-3,-4));
 		convexHull.add(new Point2D(-4,-2));
 		
 		DefinedDataset testDataset = new DefinedDataset(points);
@@ -109,13 +113,27 @@ public class QuickHullAlgorithmTest {
 		List<Point2D> calculatedHull = algorithm.calculate(new DefinedDataset(points));
 		
 		
-		Assert.assertEquals(points.get(0).getX(), calculatedHull.get(0).getX(), 0.0);
-		Assert.assertEquals(points.get(0).getY(), calculatedHull.get(0).getY(), 0.0);
+		Assert.assertEquals(6.0, calculatedHull.get(0).getX(), 0.0);
+		Assert.assertEquals(4.0, calculatedHull.get(0).getY(), 0.0);
 		
-		Assert.assertEquals(points.get(1).getX(), calculatedHull.get(1).getX(), 0.0);
-		Assert.assertEquals(points.get(1).getY(), calculatedHull.get(1).getY(), 0.0);
+		Assert.assertEquals(6.0, calculatedHull.get(1).getX(), 0.0);
+		Assert.assertEquals(8.0, calculatedHull.get(1).getY(), 0.0);
 		
 	}
 	
+	
+	// test without own stack
+	 @Test
+	 public void testAlgorithmRecursive() {
+		 this.algorithm.useOwnStack(false);
+		 this.testAlgorithm();
+	 }
+	 
+	 @Test
+	 public void testAlgorithmNegativePointsRecursive() {
+		 this.algorithm.useOwnStack(false);
+		 this.testAlgorithmNegativPoints();
+	 }
+	 
 	
 }

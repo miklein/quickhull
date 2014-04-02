@@ -15,25 +15,18 @@ public class TestDataset implements Dataset {
 	@Override
 	public List<Point2D> getPoints() {
 		
-		List<Point2D> pointList = new ArrayList<>();
+		List<Point2D> points = new ArrayList<>();
 
-		
-		pointList.add(new Point2D(-2,1));
-		pointList.add(new Point2D(3,-2));
-		//pointList.add(new Point2D(-3,4));
-		pointList.add(new Point2D(-2,4));
-		pointList.add(new Point2D(3,1));
-		pointList.add(new Point2D(-4,-2));
-		pointList.add(new Point2D(2,3));
-		pointList.add(new Point2D(4,2));	
-		pointList.add(new Point2D(-2,-5));
-		pointList.add(new Point2D(-5,4));
-		pointList.add(new Point2D(-3,-1));
-		pointList.add(new Point2D(-4,-2));
-		pointList.add(new Point2D(-3,-3));
-		pointList.add(new Point2D(1,-1));
-		
-		
+
+		points.add(new Point2D(1,1));
+		points.add(new Point2D(2,6));
+		points.add(new Point2D(3,4));
+		points.add(new Point2D(9,4));
+		points.add(new Point2D(7,5));
+		points.add(new Point2D(7,3));
+		points.add(new Point2D(6,8));
+		points.add(new Point2D(6,8));
+		points.add(new Point2D(1,0));
 		
 		
 		
@@ -74,7 +67,7 @@ public class TestDataset implements Dataset {
 //		pointList.add(new Point(6,8));
 //		pointList.add(new Point(7,1.5));
 				
-		return pointList;
+		return points;
 	}
 	
 

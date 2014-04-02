@@ -21,6 +21,12 @@ public class QuickHullAlgorithm implements Algorithm {
 
 	private List<Point2D> convexHull = new ArrayList<Point2D>();
 	
+	
+	public void useOwnStack(boolean useStack) {
+		this.bUseOwnStack = useStack;
+	}
+	
+	
 	@Override
 	public List<Point2D> calculate(Dataset object) {
 		
@@ -110,6 +116,10 @@ public class QuickHullAlgorithm implements Algorithm {
 	
 	private void calcHalfHullStackSupported(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
 		
+		System.out.println("=======================================0");
+		System.out.println("points:"+points);
+		System.out.println("Line: "+lineStart+" -> "+lineEnd);
+		
 		Stack<Job> stack = new Stack<Job>();
 		Stack<Point2D> resultStack = new Stack<Point2D>();
 		String lastJobType = "";
@@ -122,6 +132,12 @@ public class QuickHullAlgorithm implements Algorithm {
 		while (!stack.empty()) {
 			System.out.println(stack);
 			Job job = stack.pop();
+			
+			System.out.println("=======================================");
+			System.out.println("points:"+job.getPoints());
+			System.out.println("Line: "+job.getLineStart()+" -> "+job.getLineEnd());
+			System.out.println("---------------------------------------");
+			
 			
 			if (lastJobType == "A" && job.getType() == "B") {
 				while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
@@ -159,13 +175,13 @@ public class QuickHullAlgorithm implements Algorithm {
 //			this.addHullPoint(hullPoint);
 //			this.calcHalfHull(upperPoints, hullPoint, lineEnd);
 
-			stack.push(new Job(upperPoints, hullPoint, lineEnd, "B"));
-			stack.push(new Job(upperPoints, lineStart, hullPoint, "A"));
+			stack.push(new Job(upperPoints, hullPoint, job.getLineEnd(), "B"));
+			stack.push(new Job(upperPoints, job.getLineStart(), hullPoint, "A"));
 			resultStack.push(hullPoint);
 			
 		}
 
-		while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
+		//while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
 
 		
 		
