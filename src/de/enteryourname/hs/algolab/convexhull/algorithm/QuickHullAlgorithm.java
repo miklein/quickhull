@@ -11,7 +11,7 @@ import de.enteryourname.hs.algolab.convexhull.Point2D;
 import de.enteryourname.hs.algolab.dataset.Dataset;
 
 /**
- * Implementation of QuickHull algorithm
+ * Implementation of the QuickHull algorithm
  * @author Tobias Keller
  *
  */
@@ -21,7 +21,11 @@ public class QuickHullAlgorithm implements Algorithm {
 
 	private List<Point2D> convexHull = new ArrayList<Point2D>();
 	
-	
+	/**
+	 * define if the recursive or the stack-version of the algorithm 
+	 * will be used (false=recursive, true=stack)
+	 * @param useStack
+	 */
 	public void useOwnStack(boolean useStack) {
 		this.bUseOwnStack = useStack;
 	}
@@ -58,8 +62,8 @@ public class QuickHullAlgorithm implements Algorithm {
 			
 		
 		// linie zwischen mostLeftPoint und mostRightPoint
-		dataset.remove(dataset.indexOf(mostRightPoint));
-		dataset.remove(dataset.indexOf(mostLeftPoint));
+		//dataset.remove(dataset.indexOf(mostRightPoint));
+		//dataset.remove(dataset.indexOf(mostLeftPoint));
 		
 		if (bUseOwnStack) {
 			this.addHullPoint(mostLeftPoint);
@@ -79,7 +83,13 @@ public class QuickHullAlgorithm implements Algorithm {
 	
 	
 	
-	
+	/**
+	 * calculate the convex hull on the left side of the given line
+	 * using recursive calls.
+	 * @param points
+	 * @param lineStart
+	 * @param lineEnd
+	 */
 	private void calcHalfHull(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
 		
 		List<Point2D> upperPoints = new ArrayList<Point2D>();
@@ -105,7 +115,7 @@ public class QuickHullAlgorithm implements Algorithm {
 			}
 		}
 		
-		upperPoints.remove(upperPoints.indexOf(hullPoint));
+		//upperPoints.remove(upperPoints.indexOf(hullPoint));
 		
 		this.calcHalfHull(upperPoints, lineStart, hullPoint);
 		this.addHullPoint(hullPoint);
@@ -113,12 +123,14 @@ public class QuickHullAlgorithm implements Algorithm {
 	}
 	
 	
-	
+	/**
+	 * calculate the convex hull on the left side of the given line
+	 * using a stack.
+	 * @param points
+	 * @param lineStart
+	 * @param lineEnd
+	 */
 	private void calcHalfHullStackSupported(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
-		
-		System.out.println("=======================================0");
-		System.out.println("points:"+points);
-		System.out.println("Line: "+lineStart+" -> "+lineEnd);
 		
 		Stack<Job> stack = new Stack<Job>();
 		Stack<Point2D> resultStack = new Stack<Point2D>();
@@ -128,18 +140,19 @@ public class QuickHullAlgorithm implements Algorithm {
 		stack.clear();
 		
 		stack.push(new Job(points, lineStart, lineEnd, "init"));
-		System.out.println("Starte StackSupport..");
+		//System.out.println("Starte StackSupport..");
 		while (!stack.empty()) {
-			System.out.println(stack);
+			
 			Job job = stack.pop();
 			
-			System.out.println("=======================================");
-			System.out.println("points:"+job.getPoints());
-			System.out.println("Line: "+job.getLineStart()+" -> "+job.getLineEnd());
-			System.out.println("---------------------------------------");
+//			System.out.println("=======================================");
+//			System.out.println("points:"+job.getPoints());
+//			System.out.println("Line: "+job.getLineStart()+" -> "+job.getLineEnd());
+//			System.out.println("---------------------------------------");
 			
 			
 			if (lastJobType == "A" && job.getType() == "B") {
+				// flush stack
 				while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
 			}
 			lastJobType = job.getType();
@@ -171,29 +184,25 @@ public class QuickHullAlgorithm implements Algorithm {
 			
 			upperPoints.remove(upperPoints.indexOf(hullPoint));
 
-//			this.calcHalfHull(upperPoints, lineStart, hullPoint);
-//			this.addHullPoint(hullPoint);
-//			this.calcHalfHull(upperPoints, hullPoint, lineEnd);
-
 			stack.push(new Job(upperPoints, hullPoint, job.getLineEnd(), "B"));
 			stack.push(new Job(upperPoints, job.getLineStart(), hullPoint, "A"));
 			resultStack.push(hullPoint);
 			
 		}
 
+		
 		//while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
-
-		
-		
 	}
 	
 	
 	
 	
 	
-	
+	/**
+	 * add a point to the convex-hull
+	 * @param point
+	 */
 	private void addHullPoint(Point2D point) {
-		//System.out.println("add hull point: "+point);
 		// check if point is already in the hull-list
 		// this solves tripple-entries if a source-point exists twice
 		if (this.convexHull.size() == 0 || point.compareTo(this.convexHull.get(this.convexHull.size()-1)) != 0) {
