@@ -1,7 +1,9 @@
 package de.enteryourname.hs.algolab.convexhull;
 
-import de.kellertobias.hs.algolab.convexhull.algorithm.Algorithm;
-import de.kellertobias.hs.algolab.dataset.Dataset;
+import de.enteryourname.hs.algolab.convexhull.algorithm.Algorithm;
+import de.enteryourname.hs.algolab.dataset.Dataset;
+
+
 
 /**
  * Class for testing the Runtime of given Algorithms

@@ -16,14 +16,15 @@ public class QuickHullAlgorithmTest {
 
 	private QuickHullAlgorithm algorithm;
 	
-	
-	private ArrayList<Point2D> pointList;
-	
-	
+
 	 @Before
 	    public void setUp() {
 		 algorithm = new QuickHullAlgorithm();
 		 
+	    }
+	
+	@Test
+	public void testAlgorithm() {
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		points.add(new Point2D(1,1));
 		points.add(new Point2D(2,6));
@@ -34,11 +35,6 @@ public class QuickHullAlgorithmTest {
 		points.add(new Point2D(6,8));
 		points.add(new Point2D(6,8));
 		
-		this.pointList = points;
-	    }
-	
-	@Test
-	public void testAlgorithm() {
 		ArrayList<Point2D> convexHull = new ArrayList<Point2D>();
 		convexHull.add(new Point2D(1,1));
 		convexHull.add(new Point2D(2,6));
@@ -46,7 +42,7 @@ public class QuickHullAlgorithmTest {
 		convexHull.add(new Point2D(9,4));
 		convexHull.add(new Point2D(7,3));
 		
-		DefinedDataset testDataset = new DefinedDataset(pointList);
+		DefinedDataset testDataset = new DefinedDataset(points);
 		
 		int i = 0;
 		
