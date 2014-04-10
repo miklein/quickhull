@@ -27,6 +27,7 @@ public class QuickHullAlgorithmTest {
 	 
 	@Test
 	public void testAlgorithm() {
+		
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		points.add(new Point2D(1,1));
 		points.add(new Point2D(2,6));
@@ -46,24 +47,19 @@ public class QuickHullAlgorithmTest {
 		convexHull.add(new Point2D(9,4));
 		convexHull.add(new Point2D(7,3));
 		
-		DefinedDataset testDataset = new DefinedDataset(points);
+		DefinedDataset dataset = new DefinedDataset(points);
 		
 		int i = 0;
-		
-		for (Point2D point : algorithm.calculate(testDataset)) {
-		Assert.assertEquals(convexHull.get(i).getX(), point.getX(), 0.0);
-		Assert.assertEquals(convexHull.get(i).getY(), point.getY(), 0.0);
-		i++;
+		for (Point2D point : algorithm.calculate(dataset)) {
+			Assert.assertEquals(convexHull.get(i).getX(), point.getX(), 0.0);
+			Assert.assertEquals(convexHull.get(i).getY(), point.getY(), 0.0);
+			i++;
 		}
-		
-		//assertArrayEquals(convexHull, algorithm.calculate(pointList));
-//		assertThat(algorithm.calculate(pointList), 
-//			       IsIterableContainingInOrder.contains(convexHull.toArray()));
-		
 	}
 	
 	@Test
-	public void testAlgorithmNegativPoints() {
+	public void testAlgorithmNegativePoints() {
+		
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		points.add(new Point2D(-2,1));
 		points.add(new Point2D(3,-2));
@@ -91,21 +87,20 @@ public class QuickHullAlgorithmTest {
 		convexHull.add(new Point2D(-2,-5));
 		convexHull.add(new Point2D(-4,-2));
 		
-		DefinedDataset testDataset = new DefinedDataset(points);
+		DefinedDataset dataset = new DefinedDataset(points);
 		
 		int i = 0;
-		
-		for (Point2D point : algorithm.calculate(testDataset)) {
-		Assert.assertEquals(convexHull.get(i).getX(), point.getX(), 0.0);
-		Assert.assertEquals(convexHull.get(i).getY(), point.getY(), 0.0);
-		i++;
+		for (Point2D point : algorithm.calculate(dataset)) {
+			Assert.assertEquals(convexHull.get(i).getX(), point.getX(), 0.0);
+			Assert.assertEquals(convexHull.get(i).getY(), point.getY(), 0.0);
+			i++;
 		}
-		
 	}
 	
 
 	@Test
 	public void testOnlyTwoPoints() {
+		
 		ArrayList<Point2D> points = new ArrayList<Point2D>();
 		points.add(new Point2D(6,4));
 		points.add(new Point2D(6,8));
@@ -118,11 +113,11 @@ public class QuickHullAlgorithmTest {
 		
 		Assert.assertEquals(6.0, calculatedHull.get(1).getX(), 0.0);
 		Assert.assertEquals(8.0, calculatedHull.get(1).getY(), 0.0);
-		
 	}
 	
 	
-	// test without own stack
+	// test with recursive methods
+	
 	 @Test
 	 public void testAlgorithmRecursive() {
 		 this.algorithm.useOwnStack(false);
@@ -132,7 +127,7 @@ public class QuickHullAlgorithmTest {
 	 @Test
 	 public void testAlgorithmNegativePointsRecursive() {
 		 this.algorithm.useOwnStack(false);
-		 this.testAlgorithmNegativPoints();
+		 this.testAlgorithmNegativePoints();
 	 }
 	 
 	

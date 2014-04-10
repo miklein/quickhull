@@ -65,7 +65,8 @@ public class Export {
 	public void addBenchmark(int amount, long runtime) {
 		double tmp = (double)(runtime * 0.000001);
 		tmp = Math.round(tmp * Math.pow(10, 3)) / Math.pow(10, 3);
-		this.output+= amount+","+runtime+","+tmp+";\n";
+		// this.output+= amount+","+runtime+","+tmp+";\n";
+		this.output+= amount+"&"+runtime+"&"+tmp+"\\\\\n\\hline\n";
 	}
 	
 	
