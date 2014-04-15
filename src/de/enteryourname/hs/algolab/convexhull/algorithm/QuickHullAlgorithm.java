@@ -1,8 +1,6 @@
 package de.enteryourname.hs.algolab.convexhull.algorithm;
 
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -17,9 +15,11 @@ import de.enteryourname.hs.algolab.dataset.Dataset;
  */
 public class QuickHullAlgorithm implements Algorithm {
 	
-	private boolean bUseOwnStack = true;
+	private boolean useStack = true;
 
 	private List<Point2D> convexHull = new ArrayList<Point2D>();
+	
+	
 	
 	/**
 	 * define if the recursive or the stack-version of the algorithm 
@@ -27,7 +27,7 @@ public class QuickHullAlgorithm implements Algorithm {
 	 * @param useStack
 	 */
 	public void useOwnStack(boolean useStack) {
-		this.bUseOwnStack = useStack;
+		this.useStack = useStack;
 	}
 	
 	
@@ -43,14 +43,12 @@ public class QuickHullAlgorithm implements Algorithm {
 		Point2D mostLeftPoint = dataset.get(0);
 		Point2D mostRightPoint = dataset.get(0);
 		for (Point2D point : dataset) {
-			
 			// most left
 			if (point.getX() < mostLeftPoint.getX()) {
 				mostLeftPoint = point;
 			} else if (point.getX() == mostLeftPoint.getX() && point.getY() < mostLeftPoint.getY()) {
 				mostLeftPoint = point;
 			}
-			
 			
 			// most right
 			if (point.getX() > mostRightPoint.getX()) {
@@ -65,7 +63,7 @@ public class QuickHullAlgorithm implements Algorithm {
 		//dataset.remove(dataset.indexOf(mostRightPoint));
 		//dataset.remove(dataset.indexOf(mostLeftPoint));
 		
-		if (bUseOwnStack) {
+		if (useStack) {
 			this.addHullPoint(mostLeftPoint);
 			this.calcHalfHullStackSupported(dataset, mostLeftPoint, mostRightPoint);
 			this.addHullPoint(mostRightPoint);
@@ -94,7 +92,7 @@ public class QuickHullAlgorithm implements Algorithm {
 		
 		List<Point2D> upperPoints = new ArrayList<Point2D>();
 		
-		// divide
+		//points above the line
 		for (Point2D point : points) {
 			if (point.isAboveLine(lineStart, lineEnd) == 1) {
 				upperPoints.add(point);
@@ -105,12 +103,13 @@ public class QuickHullAlgorithm implements Algorithm {
 		if (upperPoints.size() == 0) return;
 		
 		double distance = 0;
+		double lastDistance;
 		Point2D hullPoint = null; 
 		// find point with greatest distance
 		for (Point2D point : upperPoints) {
-			double temp = point.distanceToLine(lineStart, lineEnd);
-			if (temp >= distance) {
-				distance = temp;
+			lastDistance = point.distanceToLine(lineStart, lineEnd);
+			if (lastDistance >= distance) {
+				distance = lastDistance;
 				hullPoint = point;
 			}
 		}

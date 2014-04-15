@@ -12,8 +12,8 @@ public class Point2D implements Comparable<Point2D> {
 	
 	/** 
 	 * create a new Point at position x,y
-	 * @param x
-	 * @param y
+	 * @param x the x-value of the point
+	 * @param y the y-value of the point
 	 */
 	public Point2D(double x, double y) {
 		this.setX(x);
@@ -22,7 +22,7 @@ public class Point2D implements Comparable<Point2D> {
 	
 	/**
 	 * get the x-value of the point
-	 * @return
+	 * @return the x-value
 	 */
 	public double getX() {
 		return this.x;
@@ -30,7 +30,7 @@ public class Point2D implements Comparable<Point2D> {
 	
 	/**
 	 * get the y-value of the point
-	 * @return
+	 * @return the y-value
 	 */
 	public double getY() {
 		return this.y;
@@ -38,7 +38,7 @@ public class Point2D implements Comparable<Point2D> {
 	
 	/**
 	 * set the x-value of the point
-	 * @param x
+	 * @param x 
 	 */
 	public void setX(double x) {
 		this.x = x;
@@ -61,38 +61,28 @@ public class Point2D implements Comparable<Point2D> {
 	 */
 	public int isAboveLine(Point2D start, Point2D end) {
 		
-		// System.out.println("Prüfe ob "+this+" über Linie ("+start+" -> "+end+")");
+		// System.out.println("Prï¿½fe ob "+this+" ï¿½ber Linie ("+start+" -> "+end+")");
 		
 		// vector from start to end
-		double v1x = end.getX() - start.getX();
-		double v1y = end.getY() - start.getY();
+		double vector1x = end.getX() - start.getX();
+		double vecotr1y = end.getY() - start.getY();
 		
 		// vector from start to this point
-		double v2x = this.getX() - start.getX();
-		double v2y = this.getY() - start.getY();
+		double vecotr2x = this.getX() - start.getX();
+		double vector2y = this.getY() - start.getY();
 		
 		// crossproduct
-		double cp = (v1x * v2y) - (v1y * v2x);
-		if (cp > 0) return 1;	// point is above (left) the line
-		if (cp < 0) return -1;	// point is below (right) the line
+		double crossproduct = (vector1x * vector2y) - (vecotr1y * vecotr2x);
+		if (crossproduct > 0) return 1;	// point is above (left) the line
+		if (crossproduct < 0) return -1;	// point is below (right) the line
 		return 0;					// point is on the line		
 	}
 	
-	
-	
-	public double getAbsValue() {
-		return Math.sqrt(Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
-	}
-	
-	
+		
 	public double distanceToLine(Point2D start, Point2D end) {
-		
-		
 		Point2D a = new Point2D(start.getX(), start.getY());
 		Point2D u = new Point2D(end.getX() - start.getX(), end.getY() - start.getY());
-		
-		
-		
+
 		// calculate point - start
 		double pma_x = this.getX() - a.getX();
 		double pma_y = this.getY() - a.getY();

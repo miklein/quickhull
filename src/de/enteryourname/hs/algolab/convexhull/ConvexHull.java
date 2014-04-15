@@ -41,17 +41,15 @@ public class ConvexHull {
 //		points.add(new Point2D(7,3));
 //		points.add(new Point2D(6,8));
 //		
-//		Dataset dataset = new FlippedRectangleDataset(50);
 		
 		
-//		List<Point2D> result = algo.calculate(dataset);
+		Dataset dataset = new FlippedRectangleDataset(50);
+		List<Point2D> result = algo.calculate(dataset);
 		
-	
-		
-//		Export plot = new Export("D:\\pplot.dat");
-//		plot.addDataset(dataset);
-//		plot.addHull(algo.calculate(dataset));
-//		plot.store();
+		Export plot = new Export("/home/michi/pplot.dat");
+		plot.addDataset(dataset);
+		plot.addHull(result);
+		plot.store();
 		
 		//
 			
@@ -74,29 +72,29 @@ public class ConvexHull {
 		int initialAmount = 500;
 		int meanRounds = 5;
 		
-		Benchmark benchmark = new Benchmark(true);
-
-		algo.useOwnStack(true);
-		benchmark.setPrefix("stack");
-		// do one benchmark for initialization
-		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new CircleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new RandomDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new InnerRectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new RectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new WorstCaseDataset(1), rounds, initialAmount, meanRounds);
+//		Benchmark benchmark = new Benchmark(true);
+//
+//		algo.useOwnStack(true);
+//		//benchmark.setPrefix("stack");
+//		// do one benchmark for initialization
+//		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new CircleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new RandomDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new InnerRectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new RectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new WorstCaseDataset(1), rounds, initialAmount, meanRounds);
 		
-		algo.useOwnStack(false);
-		benchmark.setPrefix("recursive");
-		// do one benchmark for initialization
-		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new CircleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new RandomDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new InnerRectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new RectangleDataset(1), rounds, initialAmount, meanRounds);
-		benchmark.runtimeBenchmark(algo, new WorstCaseDataset(1), rounds, initialAmount, meanRounds);
+//		algo.useOwnStack(false);
+//		//benchmark.setPrefix("recursive");
+//		// do one benchmark for initialization
+//		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new FlippedRectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new CircleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new RandomDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new InnerRectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new RectangleDataset(1), rounds, initialAmount, meanRounds);
+//		benchmark.runtimeBenchmark(algo, new WorstCaseDataset(1), rounds, initialAmount, meanRounds);
 		
 		
 		
@@ -106,13 +104,13 @@ public class ConvexHull {
 //		System.out.println(algo.createSubsets(dataset.getPoints(), 2));
 //		
 		
-//		Dataset dataset = new CircleDataset(50);
-//		List<Point> result = algo.calculate(dataset.getPoints());
-//	
-//		Export plot = new Export("D:\\pplot.dat");
-//		plot.addBenchmark(amount, runtime);
-//		plot.addHull(result);
-//		plot.store();
+//		 Dataset dataset = new CircleDataset(50);
+//		 List<Point> result = algo.calculate(dataset.getPoints());
+//		
+//		 Export plot = new Export("D:\\pplot.dat");
+//		 plot.addBenchmark(amount, runtime);
+//		 plot.addHull(result);
+//		 plot.store();
 		
 	}
 	
