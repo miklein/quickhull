@@ -23,12 +23,10 @@ public class JobTest {
 		Point2D lineStart = new Point2D(2,7);
 		Point2D lineEnd = new Point2D(3,6);
 		
-		
-		Job job = new Job(points, lineStart, lineEnd, "type-test");
-		
+		Job job = new Job(points, lineStart, lineEnd);
 		
 		int i = 0;
-		for (Point2D point : job.getPoints()) {
+		for (Point2D point : job.getPointsAboveLine()) {
 			Assert.assertEquals(points.get(i).getX(), point.getX(), 0.0);
 			Assert.assertEquals(points.get(i).getY(), point.getY(), 0.0);
 			i++;
@@ -39,10 +37,6 @@ public class JobTest {
 
 		Assert.assertEquals(lineEnd.getX(), job.getLineEnd().getX(), 0.0);
 		Assert.assertEquals(lineEnd.getY(), job.getLineEnd().getY(), 0.0);
-		
-		Assert.assertEquals("type-test", job.getType());
-		
-		Assert.assertEquals("type-test", job.toString());
 	}
 		
 	

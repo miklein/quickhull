@@ -20,17 +20,16 @@ public class QuickHullAlgorithm implements Algorithm {
 	private List<Point2D> convexHull = new ArrayList<Point2D>();
 	
 	
-	
 	/**
-	 * define if the recursive or the stack-version of the algorithm 
-	 * will be used (false=recursive, true=stack)
-	 * @param useStack
+	 * Define if the recursive or the stack-version of the algorithm 
+	 * will be used. 
+	 * @param useStack false = recursive, true = stack
 	 */
 	public void useOwnStack(boolean useStack) {
 		this.useStack = useStack;
 	}
 	
-	
+
 	@Override
 	public List<Point2D> calculate(Dataset object) {
 		
@@ -57,56 +56,39 @@ public class QuickHullAlgorithm implements Algorithm {
 				mostRightPoint = point;
 			}
 		}
-			
-		
-		// linie zwischen mostLeftPoint und mostRightPoint
-		//dataset.remove(dataset.indexOf(mostRightPoint));
-		//dataset.remove(dataset.indexOf(mostLeftPoint));
-		
+						
 		if (useStack) {
 			this.addHullPoint(mostLeftPoint);
 			this.calcHalfHullStackSupported(dataset, mostLeftPoint, mostRightPoint);
-			this.addHullPoint(mostRightPoint);
-			this.calcHalfHullStackSupported(dataset, mostRightPoint, mostLeftPoint);
 		} else {
 			this.addHullPoint(mostLeftPoint);
-			this.calcHalfHull(dataset, mostLeftPoint, mostRightPoint);
+			this.calcHalfHullRecursive(dataset, mostLeftPoint, mostRightPoint);
 			this.addHullPoint(mostRightPoint);
-			this.calcHalfHull(dataset, mostRightPoint, mostLeftPoint);
+			this.calcHalfHullRecursive(dataset, mostRightPoint, mostLeftPoint);
 		}
 		
 		return this.convexHull;
 	}
 	
 	
-	
-	
 	/**
-	 * calculate the convex hull on the left side of the given line
+	 * Calculate the convex hull on the left side of the given line,
 	 * using recursive calls.
-	 * @param points
-	 * @param lineStart
-	 * @param lineEnd
+	 * @param points	points to examine
+	 * @param lineStart	start point of the line
+	 * @param lineEnd	end point of the line
 	 */
-	private void calcHalfHull(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
-		
-		List<Point2D> upperPoints = new ArrayList<Point2D>();
-		
-		//points above the line
-		for (Point2D point : points) {
-			if (point.isAboveLine(lineStart, lineEnd) == 1) {
-				upperPoints.add(point);
-			}
-		}
+	private void calcHalfHullRecursive(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
+		List<Point2D> pointsAbove = pointsAboveLine(points, lineStart, lineEnd);
 		
 		// break if no points exists..
-		if (upperPoints.size() == 0) return;
+		if (pointsAbove.size() == 0) return;
 		
 		double distance = 0;
 		double lastDistance;
 		Point2D hullPoint = null; 
 		// find point with greatest distance
-		for (Point2D point : upperPoints) {
+		for (Point2D point : pointsAbove) {
 			lastDistance = point.distanceToLine(lineStart, lineEnd);
 			if (lastDistance >= distance) {
 				distance = lastDistance;
@@ -114,102 +96,79 @@ public class QuickHullAlgorithm implements Algorithm {
 			}
 		}
 		
-		//upperPoints.remove(upperPoints.indexOf(hullPoint));
-		
-		this.calcHalfHull(upperPoints, lineStart, hullPoint);
+		this.calcHalfHullRecursive(pointsAbove, lineStart, hullPoint);
 		this.addHullPoint(hullPoint);
-		this.calcHalfHull(upperPoints, hullPoint, lineEnd);
+		this.calcHalfHullRecursive(pointsAbove, hullPoint, lineEnd);
 	}
 	
 	
 	/**
-	 * calculate the convex hull on the left side of the given line
-	 * using a stack.
-	 * @param points
-	 * @param lineStart
-	 * @param lineEnd
+	 * Calculate the convex hull using a stack.
+	 * @param points	points to examine
+	 * @param lineStart	start point of the line
+	 * @param lineEnd	end point of the line
 	 */
 	private void calcHalfHullStackSupported(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
-		
 		Stack<Job> stack = new Stack<Job>();
-		Stack<Point2D> resultStack = new Stack<Point2D>();
-		String lastJobType = "";
-		
-		resultStack.clear();
-		stack.clear();
-		
-		stack.push(new Job(points, lineStart, lineEnd, "init"));
-		//System.out.println("Starte StackSupport..");
+
+		stack.push(new Job(pointsAboveLine(points, lineEnd, lineStart), lineEnd, lineStart)); // right 1
+		stack.push(new Job(pointsAboveLine(points, lineStart, lineEnd), lineStart, lineEnd)); // left 2
+
 		while (!stack.empty()) {
-			
 			Job job = stack.pop();
 			
-//			System.out.println("=======================================");
-//			System.out.println("points:"+job.getPoints());
-//			System.out.println("Line: "+job.getLineStart()+" -> "+job.getLineEnd());
-//			System.out.println("---------------------------------------");
-			
-			
-			if (lastJobType == "A" && job.getType() == "B") {
-				// flush stack
-				while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
-			}
-			lastJobType = job.getType();
-			
-			
-			//System.out.println("punkte"+points);
-			List<Point2D> upperPoints = new ArrayList<Point2D>();
-			
-			// divide
-			for (Point2D point : job.getPoints()) {
-				if (point.isAboveLine(job.getLineStart(), job.getLineEnd()) == 1) {
-					upperPoints.add(point);
+			if (job.getPointsAboveLine().size() == 0) {
+				// no left points -> add end point to convex hull
+				addHullPoint(job.getLineEnd());
+			} else {
+				double distance = 0;
+				double lastDistance;
+				Point2D hullPoint = null;
+				// find point with greatest distance
+				for (Point2D point : job.getPointsAboveLine()) {
+					lastDistance = point.distanceToLine(job.getLineStart(),job.getLineEnd());
+					if (lastDistance >= distance) {
+						distance = lastDistance;
+						hullPoint = point;
+					}
 				}
-			}
-			
-			// break if no points exists..
-			if (upperPoints.size() == 0) continue;
-			
-			double distance = 0;
-			Point2D hullPoint = null; 
-			// find point with greatest distance
-			for (Point2D point : upperPoints) {
-				double temp = point.distanceToLine(job.getLineStart(), job.getLineEnd());
-				if (temp >= distance) {
-					distance = temp;
-					hullPoint = point;
-				}
-			}
-			
-			upperPoints.remove(upperPoints.indexOf(hullPoint));
 
-			stack.push(new Job(upperPoints, hullPoint, job.getLineEnd(), "B"));
-			stack.push(new Job(upperPoints, job.getLineStart(), hullPoint, "A"));
-			resultStack.push(hullPoint);
-			
+				stack.push(new Job(pointsAboveLine(job.getPointsAboveLine(), hullPoint, job.getLineEnd()), hullPoint, job.getLineEnd()));
+				stack.push(new Job(pointsAboveLine(job.getPointsAboveLine(), job.getLineStart(), hullPoint), job.getLineStart(),hullPoint));
+			}
+
 		}
-
-		
-		//while(!resultStack.empty()) this.addHullPoint(resultStack.pop());
 	}
-	
-	
-	
-	
+
 	
 	/**
-	 * add a point to the convex-hull
-	 * @param point
+	 * Calculates which points are above the given line.
+	 * @param points	points to examine
+	 * @param lineStart	start point of the line
+	 * @param lineEnd	end point of the line
+	 * @return the points which are above the given line
+	 */
+	public List<Point2D> pointsAboveLine(List<Point2D> points,Point2D lineStart, Point2D lineEnd) {
+		List<Point2D> pointsAbove = new ArrayList<Point2D>();
+		
+		for (Point2D point : points) {
+			if (point.isAboveLine(lineStart, lineEnd) == 1) {
+				pointsAbove.add(point);
+			}
+		}
+		return pointsAbove;
+	}
+	
+
+	/**
+	 * Add the given point to the convex hull, when the point is not already in it.
+	 * @param point	to add to the convex hull
 	 */
 	private void addHullPoint(Point2D point) {
-		// check if point is already in the hull-list
-		// this solves tripple-entries if a source-point exists twice
 		if (this.convexHull.size() == 0 || point.compareTo(this.convexHull.get(this.convexHull.size()-1)) != 0) {
 			this.convexHull.add(point);
 		}
 	}
-	
-	
 	
 	
 }

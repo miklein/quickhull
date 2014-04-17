@@ -116,7 +116,7 @@ public class QuickHullAlgorithmTest {
 	}
 	
 	
-	// test with recursive methods
+	// Tests for recursive calculation
 	
 	 @Test
 	 public void testAlgorithmRecursive() {

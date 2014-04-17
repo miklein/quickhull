@@ -1,7 +1,7 @@
 package de.enteryourname.hs.algolab.convexhull;
 
 /**
- * Class for representation of a point in an 2D-System
+ * Class for the representation of a point in an 2D-System
  * @author Tobias Keller
  *
  */
@@ -11,7 +11,7 @@ public class Point2D implements Comparable<Point2D> {
 	private double y;
 	
 	/** 
-	 * create a new Point at position x,y
+	 * Point at position x,y
 	 * @param x the x-value of the point
 	 * @param y the y-value of the point
 	 */
@@ -21,7 +21,7 @@ public class Point2D implements Comparable<Point2D> {
 	}
 	
 	/**
-	 * get the x-value of the point
+	 * Get the x-value of the point
 	 * @return the x-value
 	 */
 	public double getX() {
@@ -29,7 +29,7 @@ public class Point2D implements Comparable<Point2D> {
 	}
 	
 	/**
-	 * get the y-value of the point
+	 * Get the y-value of the point
 	 * @return the y-value
 	 */
 	public double getY() {
@@ -37,27 +37,26 @@ public class Point2D implements Comparable<Point2D> {
 	}
 	
 	/**
-	 * set the x-value of the point
-	 * @param x 
+	 * Set the x-value of the point
+	 * @param x	 the x-value of the point
 	 */
 	public void setX(double x) {
 		this.x = x;
 	}
 	
 	/**
-	 * set the y-value of the point
-	 * @param y
+	 * Set the y-value of the point
+	 * @param y	the y-value of the point
 	 */
 	public void setY(double y) {
 		this.y = y;
 	}
 	
 	/**
-	 * check if this point is above the line between the points, defined by the params
-	 * returns 1 if the point is above the line, -1 if it is below and 0 if it is on the line
-	 * @param start Startpoint of the line
-	 * @param end Endpoint of the line
-	 * @return
+	 * Check if this point is above the line between the two given points.
+	 * @param start start point of the line
+	 * @param end 	end point of the line
+	 * @return		1 if the point is above the line, -1 if it is below and 0 if it is on the line	
 	 */
 	public int isAboveLine(Point2D start, Point2D end) {
 		
@@ -78,7 +77,12 @@ public class Point2D implements Comparable<Point2D> {
 		return 0;					// point is on the line		
 	}
 	
-		
+	/**
+	 * 	Calculates the distance from the point to the line between the two given points.
+	 * @param start		start point of the line
+	 * @param end		end point of the line
+	 * @return			distance of the this point to the given line
+	 */
 	public double distanceToLine(Point2D start, Point2D end) {
 		Point2D a = new Point2D(start.getX(), start.getY());
 		Point2D u = new Point2D(end.getX() - start.getX(), end.getY() - start.getY());
@@ -112,11 +116,11 @@ public class Point2D implements Comparable<Point2D> {
 
 	
 	/**
-	 * returns the x and y-value as a string
+	 * String representation of the point
+	 * @return string representation of the point
 	 */
 	public String toString() {
        return "["+x+","+y+"]";
-		// return getClass().getName() + "[x=" + x + ",y=" + y + "]";
     }
 
 
