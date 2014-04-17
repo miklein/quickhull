@@ -26,7 +26,7 @@ public class JobTest {
 		Job job = new Job(points, lineStart, lineEnd);
 		
 		int i = 0;
-		for (Point2D point : job.getPointsAboveLine()) {
+		for (Point2D point : job.getPoints()) {
 			Assert.assertEquals(points.get(i).getX(), point.getX(), 0.0);
 			Assert.assertEquals(points.get(i).getY(), point.getY(), 0.0);
 			i++;

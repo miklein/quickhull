@@ -43,11 +43,11 @@ public class ConvexHull {
 //		
 		
 		
-		Dataset dataset = new WorstCaseDataset(50);
+		Dataset dataset = new CircleDataset(50);
 		List<Point2D> result = algo.calculate(dataset);
 		
-		//Export plot = new Export("/home/michi/pplot.dat");
-		Export plot = new Export("d:\\pplot.dat");
+		Export plot = new Export("/home/michi/pplot.dat");
+		//Export plot = new Export("d:\\pplot.dat");
 		plot.addDataset(dataset);
 		plot.addHull(result);
 		plot.store();

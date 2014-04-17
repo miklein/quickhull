@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Job {
 
-	private List<Point2D> pointsAboveLine = new ArrayList<Point2D>();
+	private List<Point2D> points = new ArrayList<Point2D>();
 	private Point2D lineStart;
 	private Point2D lineEnd;
 
@@ -31,16 +31,16 @@ public class Job {
 	 * Get the points 
 	 * @return the points
 	 */
-	public List<Point2D> getPointsAboveLine() {
-		return pointsAboveLine;
+	public List<Point2D> getPoints() {
+		return points;
 	}
 	
 	/**
 	 * Set the point set
 	 * @param pointsAboveLine	the points to be set
 	 */
-	public void setPoints(List<Point2D> pointsAboveLine) {
-		this.pointsAboveLine = pointsAboveLine;
+	public void setPoints(List<Point2D> points) {
+		this.points = points;
 	}
 	
 	/**

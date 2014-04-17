@@ -84,18 +84,8 @@ public class QuickHullAlgorithm implements Algorithm {
 		// break if no points exists..
 		if (pointsAbove.size() == 0) return;
 		
-		double distance = 0;
-		double lastDistance;
-		Point2D hullPoint = null; 
-		// find point with greatest distance
-		for (Point2D point : pointsAbove) {
-			lastDistance = point.distanceToLine(lineStart, lineEnd);
-			if (lastDistance >= distance) {
-				distance = lastDistance;
-				hullPoint = point;
-			}
-		}
-		
+		Point2D hullPoint = pointWithBiggestDistanceToLine(pointsAbove, lineStart, lineEnd);
+
 		this.calcHalfHullRecursive(pointsAbove, lineStart, hullPoint);
 		this.addHullPoint(hullPoint);
 		this.calcHalfHullRecursive(pointsAbove, hullPoint, lineEnd);
@@ -117,24 +107,14 @@ public class QuickHullAlgorithm implements Algorithm {
 		while (!stack.empty()) {
 			Job job = stack.pop();
 			
-			if (job.getPointsAboveLine().size() == 0) {
+			if (job.getPoints().size() == 0) {
 				// no left points -> add end point to convex hull
 				addHullPoint(job.getLineEnd());
 			} else {
-				double distance = 0;
-				double lastDistance;
-				Point2D hullPoint = null;
-				// find point with greatest distance
-				for (Point2D point : job.getPointsAboveLine()) {
-					lastDistance = point.distanceToLine(job.getLineStart(),job.getLineEnd());
-					if (lastDistance >= distance) {
-						distance = lastDistance;
-						hullPoint = point;
-					}
-				}
+				Point2D hullPoint = pointWithBiggestDistanceToLine(job.getPoints(), job.getLineStart(), job.getLineEnd());
 
-				stack.push(new Job(pointsAboveLine(job.getPointsAboveLine(), hullPoint, job.getLineEnd()), hullPoint, job.getLineEnd()));
-				stack.push(new Job(pointsAboveLine(job.getPointsAboveLine(), job.getLineStart(), hullPoint), job.getLineStart(),hullPoint));
+				stack.push(new Job(pointsAboveLine(job.getPoints(), hullPoint, job.getLineEnd()), hullPoint, job.getLineEnd()));
+				stack.push(new Job(pointsAboveLine(job.getPoints(), job.getLineStart(), hullPoint), job.getLineStart(),hullPoint));
 			}
 
 		}
@@ -157,6 +137,29 @@ public class QuickHullAlgorithm implements Algorithm {
 			}
 		}
 		return pointsAbove;
+	}
+	
+	
+	/**
+	 * Checks which point in the given set is furthest from the also given line.
+	 * @param points		set of points
+	 * @param lineStart		start point of the line
+	 * @param lineEnd		end point of the line
+	 * @return				the point with the biggest distance
+	 */
+	public Point2D pointWithBiggestDistanceToLine(List<Point2D> points, Point2D lineStart, Point2D lineEnd) {
+		double distance = 0;
+		double lastDistance;
+		Point2D furthestPoint = null;
+		// find point with biggest distance
+		for (Point2D point : points) {
+			lastDistance = point.distanceToLine(lineStart, lineEnd);
+			if (lastDistance >= distance) {
+				distance = lastDistance;
+				furthestPoint = point;
+			}
+		}
+		return furthestPoint;
 	}
 	
 
