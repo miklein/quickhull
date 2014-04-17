@@ -9,7 +9,7 @@ import de.enteryourname.hs.algolab.convexhull.Point2D;
 import de.enteryourname.hs.algolab.dataset.Dataset;
 
 /**
- * Implementation of the QuickHull algorithm
+ * Implementation of the QuickHull algorithm. Calculates the convex hull of a given point set clockwise.
  * @author Tobias Keller
  *
  */
@@ -165,7 +165,7 @@ public class QuickHullAlgorithm implements Algorithm {
 	 * @param point	to add to the convex hull
 	 */
 	private void addHullPoint(Point2D point) {
-		if (this.convexHull.size() == 0 || point.compareTo(this.convexHull.get(this.convexHull.size()-1)) != 0) {
+		if (this.convexHull.size() == 0 || (point.compareTo(this.convexHull.get(this.convexHull.size()-1)) != 0) && point.compareTo(this.convexHull.get(0)) != 0)  {
 			this.convexHull.add(point);
 		}
 	}
